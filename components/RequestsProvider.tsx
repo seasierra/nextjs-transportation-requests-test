@@ -18,8 +18,15 @@ const RequestsContext = createContext<IRequestsContext>({
   remove: () => {},
 });
 
-export const useRequests = () => {
+export const useRequests = (userId?: string) => {
   const context = useContext(RequestsContext);
+
+  if (userId) {
+    return {
+      ...context,
+      list: context.list.filter((i) => i.userId === userId),
+    };
+  }
 
   return context;
 };
