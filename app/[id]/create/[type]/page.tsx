@@ -21,6 +21,7 @@ export default function Page({
       userId: params.id,
       orderType: params.type,
       id: uuid.v4(),
+      createdAt: new Date().toJSON(),
     });
 
     router.push(`/${params.id}/requests`);

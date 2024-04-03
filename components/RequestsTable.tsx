@@ -45,27 +45,32 @@ const columns: {
   },
 ];
 
+type RequiredKeys<T> = {
+  [K in keyof T]-?: {} extends Pick<T, K> ? never : K;
+}[keyof T];
+
+const sortByDate = (
+  requests: IRequest[],
+  field: RequiredKeys<IRequest>,
+  direction?: "ascending" | "descending"
+) =>
+  requests.sort((a, b) => {
+    if (direction === "ascending")
+      return new Date(b[field]).getTime() - new Date(a[field]).getTime();
+
+    return new Date(a[field]).getTime() - new Date(b[field]).getTime();
+  });
+
 export const RequestsTable: React.FC<{ list: IRequest[] }> = ({ list }) => {
   let requests = useAsyncList<IRequest>({
     async load() {
       return {
-        items: list,
+        items: sortByDate(list, "createdAt"),
       };
     },
     async sort({ items, sortDescriptor }) {
       return {
-        items: items.sort((a, b) => {
-          if (sortDescriptor.direction === "ascending")
-            return (
-              new Date(b.dispatchDate).getTime() -
-              new Date(a.dispatchDate).getTime()
-            );
-
-          return (
-            new Date(a.dispatchDate).getTime() -
-            new Date(b.dispatchDate).getTime()
-          );
-        }),
+        items: sortByDate(items, "dispatchDate", sortDescriptor.direction),
       };
     },
   });

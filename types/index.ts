@@ -15,5 +15,5 @@ export interface IRequest {
   orderType: "delivery" | "order";
   id: string;
   userId: string;
-  date: string;
+  createdAt: string;
 }
