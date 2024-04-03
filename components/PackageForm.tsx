@@ -3,29 +3,27 @@
 import { FC } from "react";
 import { Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
 import { SubmitHandler, useForm } from "react-hook-form";
-
-interface IPackageForm {
-  from: string;
-  to: string;
-  parcelType: string;
-  dispatchDate: string;
-  parcelDescription: string;
-}
+import { IPackage, ParcelType } from "@/types";
+import { addToDb } from "@/utils/db";
 
 const parcelTypes = ["gadgets", "drinks", "clothes", "medicines", "other"];
 
-export const PackageForm: FC<{ orderType: "delivery" | "order" }> = ({
-  orderType,
-}) => {
+export const PackageForm: FC<{
+  orderType: "delivery" | "order";
+  userId: string;
+}> = ({ orderType, userId }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IPackageForm>({ mode: "onBlur" });
-  const onSubmit: SubmitHandler<IPackageForm> = (data) =>
-    console.log({ data, errors });
+  } = useForm<IPackage>({ mode: "onBlur" });
 
-  console.log(errors);
+  const onSubmit: SubmitHandler<IPackage> = (data) =>
+    addToDb({
+      ...data,
+      orderType,
+      userId,
+    });
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
