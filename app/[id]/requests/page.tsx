@@ -4,7 +4,7 @@ import { DeleteIcon } from "@/components/ui/icons/DeleteIcon";
 import { EditIcon } from "@/components/ui/icons/EditIcon";
 import { IRequest } from "@/types";
 import { getRequests } from "@/utils/db";
-import { Button, Tooltip } from "@nextui-org/react";
+import { Button, SortDescriptor, Tooltip } from "@nextui-org/react";
 import React, { useCallback } from "react";
 import {
   Table,
@@ -18,8 +18,13 @@ import {
 import { useRequests } from "@/components/RequestsProvider";
 import { Heading } from "@/components/ui/Heading";
 import { useRouter } from "next/navigation";
+import { RequestsTable } from "@/components/RequestsTable";
 
-const columns: { key: keyof IRequest | "actions"; label: string }[] = [
+const columns: {
+  key: keyof IRequest | "actions";
+  label: string;
+  allowSorting?: boolean;
+}[] = [
   {
     key: "orderType",
     label: "TYPE",
@@ -39,6 +44,7 @@ const columns: { key: keyof IRequest | "actions"; label: string }[] = [
   {
     key: "dispatchDate",
     label: "DATE OF DISPATCH",
+    allowSorting: true,
   },
   {
     key: "actions",
@@ -56,45 +62,7 @@ export default function Page({ params }: { params: { id: string } }) {
         <Heading routeTo="/">{params.id}'s requests</Heading>
         <Button onClick={() => router.push(`/${params.id}/create`)}>Add</Button>
       </div>
-      <Table>
-        <TableHeader>
-          {columns.map((column) => (
-            <TableColumn key={column.key}>{column.label}</TableColumn>
-          ))}
-        </TableHeader>
-        <TableBody emptyContent="No requests to show">
-          {requests.list.map((row) => (
-            <TableRow key={row.id}>
-              {(columnKey) => {
-                if (columnKey === "actions") {
-                  return (
-                    <TableCell>
-                      <div className="relative flex items-center gap-2">
-                        <Tooltip content="Edit request">
-                          <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                            <EditIcon />
-                          </span>
-                        </Tooltip>
-                        <Tooltip color="danger" content="Delete request">
-                          <span className="text-lg text-danger cursor-pointer active:opacity-50">
-                            <DeleteIcon />
-                          </span>
-                        </Tooltip>
-                      </div>
-                    </TableCell>
-                  );
-                }
-
-                return (
-                  <TableCell className="capitalize">
-                    {getKeyValue(row, columnKey)}
-                  </TableCell>
-                );
-              }}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      <RequestsTable list={requests.list} />
     </main>
   );
 }
