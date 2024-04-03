@@ -1,4 +1,5 @@
 import { PackageForm } from "@/components/PackageForm";
+import { CardContainer } from "@/components/ui/CardContainer";
 import { Heading } from "@/components/ui/Heading";
 import { Card, CardBody } from "@nextui-org/react";
 // import { Heading } from "@radix-ui/themes";
@@ -9,13 +10,8 @@ export default function Page({
   params: { id: string; type: "delivery" | "order" };
 }) {
   return (
-    <div>
-      <Heading>Create {params.type}</Heading>
-      <Card className="w-96">
-        <CardBody>
-          <PackageForm orderType={params.type} />
-        </CardBody>
-      </Card>
-    </div>
+    <CardContainer title={`Request ${params.type}`}>
+      <PackageForm orderType={params.type} />
+    </CardContainer>
   );
 }

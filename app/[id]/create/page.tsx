@@ -1,5 +1,6 @@
 "use client";
 
+import { CardContainer } from "@/components/ui/CardContainer";
 import { Button } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
 
@@ -11,12 +12,12 @@ export default function Page({ params }: { params: { id: string } }) {
 
   return (
     <>
-      <h1>Create Page</h1>
-      <p>Select type</p>
-      <Button onClick={handleRoute("order")}>Order</Button>
-      <Button onClick={handleRoute("delivery")}>Delivery</Button>
-
-      {params.id}
+      <CardContainer title="Create request">
+        <footer className="flex justify-between">
+          <Button onClick={handleRoute("order")}>Order</Button>
+          <Button onClick={handleRoute("delivery")}>Delivery</Button>
+        </footer>
+      </CardContainer>
     </>
   );
 }

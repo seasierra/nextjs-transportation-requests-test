@@ -8,8 +8,16 @@ export const PackageForm: FC<{ orderType: "delivery" | "order" }> = ({
   return (
     <form>
       <div className="flex flex-col gap-3">
-        <Input isRequired label="The city from which the parcel is sent" />
-        <Input isRequired label="The city to which the parcel is sent" />
+        <Input
+          isRequired
+          label="City from"
+          description="The city from which the parcel is sent"
+        />
+        <Input
+          isRequired
+          label="City to"
+          description="The city to which the parcel is sent"
+        />
         {orderType === "order" && (
           <FormSelect
             label="Type of parcel"
