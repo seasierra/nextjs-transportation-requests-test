@@ -11,7 +11,7 @@ export default function Page({
 }) {
   return (
     <CardContainer title={`Request ${params.type}`}>
-      <PackageForm orderType={params.type} />
+      <PackageForm userId={params.id} orderType={params.type} />
     </CardContainer>
   );
 }

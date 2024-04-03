@@ -5,6 +5,7 @@ import { Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { IPackage, ParcelType } from "@/types";
 import { addToDb } from "@/utils/db";
+import * as uuid from "uuid";
 
 const parcelTypes = ["gadgets", "drinks", "clothes", "medicines", "other"];
 
@@ -23,6 +24,7 @@ export const PackageForm: FC<{
       ...data,
       orderType,
       userId,
+      id: uuid.v4(),
     });
 
   return (

@@ -13,5 +13,6 @@ export interface IPackage {
   dispatchDate: string;
   parcelDescription?: string;
   orderType: "delivery" | "order";
+  id: string;
   userId: string;
 }
