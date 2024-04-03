@@ -1,9 +1,7 @@
-"use client";
-
 import { FC } from "react";
 import { Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { IPackage, ParcelType } from "@/types";
+import { IRequest, ParcelType } from "@/types";
 import { addToDb } from "@/utils/db";
 import * as uuid from "uuid";
 
@@ -11,21 +9,13 @@ const parcelTypes = ["gadgets", "drinks", "clothes", "medicines", "other"];
 
 export const PackageForm: FC<{
   orderType: "delivery" | "order";
-  userId: string;
-}> = ({ orderType, userId }) => {
+  onSubmit: (request: IRequest) => void;
+}> = ({ orderType, onSubmit }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IPackage>({ mode: "onBlur" });
-
-  const onSubmit: SubmitHandler<IPackage> = (data) =>
-    addToDb({
-      ...data,
-      orderType,
-      userId,
-      id: uuid.v4(),
-    });
+  } = useForm<IRequest>({ mode: "onBlur" });
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

@@ -1,17 +1,34 @@
+"use client";
+
 import { PackageForm } from "@/components/PackageForm";
+import { useRequests } from "@/components/RequestsProvider";
 import { CardContainer } from "@/components/ui/CardContainer";
-import { Heading } from "@/components/ui/Heading";
-import { Card, CardBody } from "@nextui-org/react";
-// import { Heading } from "@radix-ui/themes";
+import { IRequest } from "@/types";
+import { useRouter } from "next/navigation";
+import * as uuid from "uuid";
 
 export default function Page({
   params,
 }: {
   params: { id: string; type: "delivery" | "order" };
 }) {
+  const requests = useRequests();
+  const router = useRouter();
+
+  const handleSubmit = (data: IRequest) => {
+    requests.add({
+      ...data,
+      userId: params.id,
+      orderType: params.type,
+      id: uuid.v4(),
+    });
+
+    router.push(`/${params.id}/requests`);
+  };
+
   return (
     <CardContainer title={`Request ${params.type}`}>
-      <PackageForm userId={params.id} orderType={params.type} />
+      <PackageForm orderType={params.type} onSubmit={handleSubmit} />
     </CardContainer>
   );
 }

@@ -1,14 +1,23 @@
 "use client";
 
-import { IPackage } from "@/types";
+import { IRequest } from "@/types";
 
-export const getRequests = (): IPackage[] =>
+export const getRequests = (): IRequest[] =>
   JSON.parse(localStorage.getItem("requests") || "[]");
 
-export const addToDb = (data: IPackage) => {
+export const setRequests = (data: IRequest[]) =>
+  localStorage.setItem("requests", JSON.stringify(data));
+
+export const addToDb = (data: IRequest) => {
   const requests = getRequests();
 
   requests.push(data);
 
-  localStorage.setItem("requests", JSON.stringify(requests));
+  setRequests(requests);
+};
+
+export const removeFromDb = (id: string) => {
+  const nextRequests = getRequests().filter((p) => p.id !== id);
+
+  setRequests(nextRequests);
 };

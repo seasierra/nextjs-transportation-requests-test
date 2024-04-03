@@ -20,7 +20,9 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           <div className="container mx-auto h-screen">
-            <div className="flex justify-center items-center">{children}</div>
+            <div className="flex justify-center items-center h-full">
+              {children}
+            </div>
           </div>
         </Providers>
       </body>

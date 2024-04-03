@@ -6,7 +6,7 @@ export enum ParcelType {
   other = "other",
 }
 
-export interface IPackage {
+export interface IRequest {
   from: string;
   to: string;
   parcelType?: ParcelType;
@@ -15,4 +15,5 @@ export interface IPackage {
   orderType: "delivery" | "order";
   id: string;
   userId: string;
+  date: string;
 }
