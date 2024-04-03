@@ -13,8 +13,9 @@ export default function Page({ params }: { params: { id: string } }) {
   return (
     <>
       <CardContainer title="Create request">
-        <footer className="flex justify-between">
+        <footer className="flex justify-between items-center">
           <Button onClick={handleRoute("order")}>Order</Button>
+          <span>or</span>
           <Button onClick={handleRoute("delivery")}>Delivery</Button>
         </footer>
       </CardContainer>
