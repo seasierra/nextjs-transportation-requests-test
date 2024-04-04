@@ -9,7 +9,7 @@ interface IRequestsContext {
   edit: (data: IRequest) => void;
   remove: (id: string) => void;
   list: IRequest[];
-  getOne: (id: string) => IRequest;
+  getOne: (id: string) => IRequest | null;
 }
 
 const RequestsContext = createContext<IRequestsContext>({
@@ -17,7 +17,7 @@ const RequestsContext = createContext<IRequestsContext>({
   add: () => {},
   edit: () => {},
   remove: () => {},
-  getOne: () => {},
+  getOne: () => null,
 });
 
 export const useRequests = (userId?: string) => {

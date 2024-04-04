@@ -32,27 +32,29 @@ export const EditEntry: React.FC<{ requestId: string }> = ({ requestId }) => {
           <EditIcon />
         </button>
       </Tooltip>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader className="flex flex-col gap-1">
-                Edit request
-              </ModalHeader>
-              <ModalBody>
-                <PackageForm
-                  orderType={request.orderType}
-                  onSubmit={(r) => {
-                    requests.edit(r);
-                    onClose();
-                  }}
-                  initialValues={request}
-                />
-              </ModalBody>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      {request && (
+        <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+          <ModalContent>
+            {(onClose) => (
+              <>
+                <ModalHeader className="flex flex-col gap-1">
+                  Edit request
+                </ModalHeader>
+                <ModalBody>
+                  <PackageForm
+                    orderType={request.orderType}
+                    onSubmit={(r) => {
+                      requests.edit(r);
+                      onClose();
+                    }}
+                    initialValues={request}
+                  />
+                </ModalBody>
+              </>
+            )}
+          </ModalContent>
+        </Modal>
+      )}
     </>
   );
 };

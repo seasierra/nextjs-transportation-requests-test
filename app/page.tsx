@@ -1,11 +1,10 @@
 "use client";
 
-// app/page.tsx
 import { CardContainer } from "@/components/ui/CardContainer";
 import { Button } from "@nextui-org/button";
 import { Listbox, ListboxItem } from "@nextui-org/react";
 import { useRouter } from "next/navigation";
-// "john", "mary", "keith", "benedict", "julius"
+
 const users = [
   {
     id: "john",

@@ -13,7 +13,7 @@ export default function Page({ params }: { params: { id: string } }) {
   return (
     <main className="flex flex-col gap-3">
       <div className="flex justify-between items-center">
-        <Heading routeTo="/">{params.id}'s requests</Heading>
+        <Heading routeTo="/">{params.id}&lsquo;s requests</Heading>
         <Button onClick={() => router.push(`/${params.id}/create`)}>Add</Button>
       </div>
       <RequestsTable list={requests.list} />
