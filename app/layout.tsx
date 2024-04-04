@@ -16,13 +16,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark">
-      <body className={inter.className}>
+      <body className={`${inter.className} dark text-foreground bg-background`}>
         <Providers>
-          <div className="dark text-foreground bg-background">
-            <div className="container mx-auto h-screen">
-              <div className="flex justify-center items-center h-full">
-                {children}
-              </div>
+          <div className="container mx-auto h-screen">
+            <div className="flex justify-center items-center h-full">
+              {children}
             </div>
           </div>
         </Providers>
