@@ -2,11 +2,21 @@
 
 import { IRequest } from "@/types";
 
-export const getRequests = (): IRequest[] =>
-  JSON.parse(localStorage.getItem("requests") || "[]");
+export const getRequests = (): IRequest[] => {
+  if (typeof window !== "undefined") {
+    return JSON.parse(localStorage.getItem("requests") || "[]");
+  }
 
-export const setRequests = (data: IRequest[]) =>
-  localStorage.setItem("requests", JSON.stringify(data));
+  return [];
+};
+
+export const setRequests = (data: IRequest[]) => {
+  if (typeof window !== "undefined") {
+    localStorage.setItem("requests", JSON.stringify(data));
+  }
+
+  return [];
+};
 
 export const addToDb = (data: IRequest) => {
   const requests = getRequests();
