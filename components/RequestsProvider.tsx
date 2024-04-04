@@ -1,7 +1,7 @@
 "use client";
 
 import { IRequest } from "@/types";
-import { getRequests, setRequests } from "@/utils/db";
+import { getRequests, setRequests } from "@/utils/requests";
 import { FC, createContext, useContext, useEffect, useState } from "react";
 
 interface IRequestsContext {
@@ -40,7 +40,6 @@ export const RequestsProvider: FC<{ children: React.ReactNode }> = ({
 
   useEffect(() => {
     setRequests(list);
-    console.log(list);
   }, [list]);
 
   const addItem = (request: IRequest) => setList(list.concat(request));

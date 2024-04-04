@@ -1,9 +1,7 @@
 import { FC } from "react";
 import { Button, Input, Select, SelectItem, Textarea } from "@nextui-org/react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { IRequest, ParcelType } from "@/types";
-import { addToDb } from "@/utils/db";
-import * as uuid from "uuid";
+import { useForm } from "react-hook-form";
+import { IRequest } from "@/types";
 
 const parcelTypes = ["gadgets", "drinks", "clothes", "medicines", "other"];
 
@@ -17,8 +15,6 @@ export const PackageForm: FC<{
     handleSubmit,
     formState: { errors },
   } = useForm<IRequest>({ mode: "onBlur", defaultValues: initialValues });
-
-  console.log(initialValues);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

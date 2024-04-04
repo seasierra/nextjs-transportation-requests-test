@@ -7,19 +7,21 @@ import {
   TableColumn,
   TableHeader,
   TableRow,
-  Tooltip,
   getKeyValue,
 } from "@nextui-org/react";
-import { DeleteIcon } from "../ui/icons/DeleteIcon";
 import { EditEntry } from "./EditEntry";
 import { useEffect, useMemo, useState } from "react";
 import { DeleteEntry } from "./DeleteEntry";
+import { MatchingRequests } from "./MatchingRequests";
+import { sortByDate } from "@/utils/requests";
 
-const columns: {
+interface IColumn {
   key: keyof IRequest | "actions";
   label: string;
   allowSorting?: boolean;
-}[] = [
+}
+
+const defaultColumns: IColumn[] = [
   {
     key: "orderType",
     label: "TYPE",
@@ -47,23 +49,10 @@ const columns: {
   },
 ];
 
-type RequiredKeys<T> = {
-  [K in keyof T]-?: {} extends Pick<T, K> ? never : K;
-}[keyof T];
-
-const sortByDate = (
-  requests: IRequest[],
-  field: RequiredKeys<IRequest>,
-  direction?: "ascending" | "descending"
-) =>
-  requests.sort((a, b) => {
-    if (direction === "descending")
-      return new Date(b[field]).getTime() - new Date(a[field]).getTime();
-
-    return new Date(a[field]).getTime() - new Date(b[field]).getTime();
-  });
-
-export const RequestsTable: React.FC<{ list: IRequest[] }> = ({ list }) => {
+export const RequestsTable: React.FC<{
+  list: IRequest[];
+  isMatchingRequests?: boolean;
+}> = ({ list, isMatchingRequests }) => {
   const [sortDirection, setSortDirection] = useState<
     SortDescriptor["direction"] | null
   >(null);
@@ -81,6 +70,14 @@ export const RequestsTable: React.FC<{ list: IRequest[] }> = ({ list }) => {
     setRequests(sortByDate(requests, "dispatchDate", descriptor.direction));
     setSortDirection(descriptor.direction);
   };
+
+  const columns: IColumn[] = useMemo(
+    () =>
+      isMatchingRequests
+        ? [{ key: "userId", label: "USER" }, ...defaultColumns]
+        : defaultColumns,
+    [isMatchingRequests]
+  );
 
   return (
     <Table
@@ -105,7 +102,10 @@ export const RequestsTable: React.FC<{ list: IRequest[] }> = ({ list }) => {
               if (columnKey === "actions") {
                 return (
                   <TableCell>
-                    <div className="relative flex items-center gap-2">
+                    <div className="relative flex justify-end items-center gap-2">
+                      {!isMatchingRequests && row.orderType === "order" && (
+                        <MatchingRequests requestId={row.id} />
+                      )}
                       <EditEntry requestId={row.id} />
                       <DeleteEntry requestId={row.id} />
                     </div>
