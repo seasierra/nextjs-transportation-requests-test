@@ -22,12 +22,15 @@ export const MatchingRequests: React.FC<{ requestId: string }> = ({
   const matchingList = useMemo(() => {
     const currentRequest = requests.getOne(requestId);
 
+    const filteredOrderType =
+      currentRequest?.orderType === "delivery" ? "order" : "delivery";
+
     const datePast = (a: string, b: string) =>
       new Date(a).getTime() > new Date(b).getTime();
 
     return requests.list.filter(
       (r) =>
-        r.orderType === "delivery" &&
+        r.orderType === filteredOrderType &&
         r.from === currentRequest?.from &&
         r.to === currentRequest?.to &&
         datePast(r.dispatchDate, currentRequest?.dispatchDate)

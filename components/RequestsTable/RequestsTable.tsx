@@ -103,7 +103,7 @@ export const RequestsTable: React.FC<{
                 return (
                   <TableCell>
                     <div className="relative flex justify-end items-center gap-2">
-                      {!isMatchingRequests && row.orderType === "order" && (
+                      {!isMatchingRequests && (
                         <MatchingRequests requestId={row.id} />
                       )}
                       <EditEntry requestId={row.id} />
