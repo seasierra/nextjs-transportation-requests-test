@@ -4,7 +4,7 @@ import { Button } from "@nextui-org/react";
 import { useRequests } from "@/components/RequestsProvider";
 import { Heading } from "@/components/ui/Heading";
 import { useRouter } from "next/navigation";
-import { RequestsTable } from "@/components/RequestsTable";
+import { RequestsTable } from "@/components/RequestsTable/RequestsTable";
 
 export default function Page({ params }: { params: { id: string } }) {
   const requests = useRequests(params.id);

@@ -2,7 +2,7 @@
 
 import { useRequests } from "@/components/RequestsProvider";
 import { Heading } from "@/components/ui/Heading";
-import { RequestsTable } from "@/components/RequestsTable";
+import { RequestsTable } from "@/components/RequestsTable/RequestsTable";
 
 export default function Page() {
   const requests = useRequests();

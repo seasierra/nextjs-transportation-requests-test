@@ -9,6 +9,7 @@ interface IRequestsContext {
   edit: (data: IRequest) => void;
   remove: (id: string) => void;
   list: IRequest[];
+  getOne: (id: string) => IRequest;
 }
 
 const RequestsContext = createContext<IRequestsContext>({
@@ -16,6 +17,7 @@ const RequestsContext = createContext<IRequestsContext>({
   add: () => {},
   edit: () => {},
   remove: () => {},
+  getOne: () => {},
 });
 
 export const useRequests = (userId?: string) => {
@@ -52,10 +54,11 @@ export const RequestsProvider: FC<{ children: React.ReactNode }> = ({
     setList(newList);
   };
   const removeItem = (id: string) => setList(list.filter((r) => r.id !== id));
+  const getOne = (id: string) => list.filter((i) => i.id === id)[0];
 
   return (
     <RequestsContext.Provider
-      value={{ list, add: addItem, edit: editItem, remove: removeItem }}
+      value={{ list, add: addItem, edit: editItem, remove: removeItem, getOne }}
     >
       {children}
     </RequestsContext.Provider>

@@ -30,7 +30,7 @@ export default function Page() {
 
   return (
     <main className="flex flex-col gap-3">
-      <h1>Select user's requests</h1>
+      <h1>Select user to see their requests</h1>
       <CardContainer>
         <Listbox
           items={users}
@@ -40,8 +40,7 @@ export default function Page() {
           {(user) => <ListboxItem key={user.id}>{user.name}</ListboxItem>}
         </Listbox>
       </CardContainer>
-      <span>OR</span>
-      <Button>See all requests</Button>
+      <Button onClick={() => router.push("/requests")}>See all requests</Button>
     </main>
   );
 }

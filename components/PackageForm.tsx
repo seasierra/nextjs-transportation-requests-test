@@ -10,17 +10,21 @@ const parcelTypes = ["gadgets", "drinks", "clothes", "medicines", "other"];
 export const PackageForm: FC<{
   orderType: "delivery" | "order";
   onSubmit: (request: IRequest) => void;
-}> = ({ orderType, onSubmit }) => {
+  initialValues?: IRequest;
+}> = ({ orderType, onSubmit, initialValues }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<IRequest>({ mode: "onBlur" });
+  } = useForm<IRequest>({ mode: "onBlur", defaultValues: initialValues });
+
+  console.log(initialValues);
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col gap-3">
         <Input
+          defaultValue={initialValues?.from}
           isRequired
           label="City from"
           description="The city from which the parcel is sent"
@@ -32,6 +36,7 @@ export const PackageForm: FC<{
           {...register("from", { required: true })}
         />
         <Input
+          defaultValue={initialValues?.to}
           isRequired
           label="City to"
           description="The city to which the parcel is sent"
@@ -43,7 +48,13 @@ export const PackageForm: FC<{
           {...register("to", { required: true })}
         />
         {orderType === "order" && (
-          <Select label="Type of parcel" {...register("parcelType")}>
+          <Select
+            defaultSelectedKeys={
+              initialValues?.parcelType ? [initialValues?.parcelType] : []
+            }
+            label="Type of parcel"
+            {...register("parcelType")}
+          >
             {parcelTypes.map((type) => (
               <SelectItem key={type} value={type}>
                 {type}
@@ -52,12 +63,14 @@ export const PackageForm: FC<{
           </Select>
         )}
         <Input
+          defaultValue={initialValues?.dispatchDate}
           type="date"
           label="Date of dispatch"
           {...register("dispatchDate")}
         />
         {orderType === "order" && (
           <Textarea
+            defaultValue={initialValues?.parcelDescription}
             label="Parcel description"
             placeholder="Enter your description"
             {...register("parcelDescription")}

@@ -1,5 +1,6 @@
 import { IRequest } from "@/types";
 import {
+  SortDescriptor,
   Table,
   TableBody,
   TableCell,
@@ -9,9 +10,10 @@ import {
   Tooltip,
   getKeyValue,
 } from "@nextui-org/react";
-import { DeleteIcon } from "./ui/icons/DeleteIcon";
-import { EditIcon } from "./ui/icons/EditIcon";
-import { useAsyncList } from "@react-stately/data";
+import { DeleteIcon } from "../ui/icons/DeleteIcon";
+import { EditEntry } from "./EditEntry";
+import { useEffect, useMemo, useState } from "react";
+import { DeleteEntry } from "./DeleteEntry";
 
 const columns: {
   key: keyof IRequest | "actions";
@@ -55,30 +57,39 @@ const sortByDate = (
   direction?: "ascending" | "descending"
 ) =>
   requests.sort((a, b) => {
-    if (direction === "ascending")
+    if (direction === "descending")
       return new Date(b[field]).getTime() - new Date(a[field]).getTime();
 
     return new Date(a[field]).getTime() - new Date(b[field]).getTime();
   });
 
 export const RequestsTable: React.FC<{ list: IRequest[] }> = ({ list }) => {
-  let requests = useAsyncList<IRequest>({
-    async load() {
-      return {
-        items: sortByDate(list, "createdAt"),
-      };
-    },
-    async sort({ items, sortDescriptor }) {
-      return {
-        items: sortByDate(items, "dispatchDate", sortDescriptor.direction),
-      };
-    },
-  });
+  const [sortDirection, setSortDirection] = useState<
+    SortDescriptor["direction"] | null
+  >(null);
+  const [requests, setRequests] = useState<IRequest[]>([]);
+
+  useEffect(() => {
+    if (sortDirection) {
+      setRequests(sortByDate(list, "dispatchDate", sortDirection));
+    } else {
+      setRequests(sortByDate(list, "createdAt"));
+    }
+  }, [list]);
+
+  const handleSort = (descriptor: SortDescriptor) => {
+    setRequests(sortByDate(requests, "dispatchDate", descriptor.direction));
+    setSortDirection(descriptor.direction);
+  };
 
   return (
     <Table
-      sortDescriptor={requests.sortDescriptor}
-      onSortChange={requests.sort}
+      sortDescriptor={
+        sortDirection
+          ? { column: "dispatchDate", direction: sortDirection }
+          : {}
+      }
+      onSortChange={handleSort}
     >
       <TableHeader>
         {columns.map((column) => (
@@ -88,23 +99,15 @@ export const RequestsTable: React.FC<{ list: IRequest[] }> = ({ list }) => {
         ))}
       </TableHeader>
       <TableBody emptyContent="No requests to show">
-        {requests.items.map((row) => (
+        {requests.map((row) => (
           <TableRow key={row.id}>
             {(columnKey) => {
               if (columnKey === "actions") {
                 return (
                   <TableCell>
                     <div className="relative flex items-center gap-2">
-                      <Tooltip content="Edit request">
-                        <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                          <EditIcon />
-                        </span>
-                      </Tooltip>
-                      <Tooltip color="danger" content="Delete request">
-                        <span className="text-lg text-danger cursor-pointer active:opacity-50">
-                          <DeleteIcon />
-                        </span>
-                      </Tooltip>
+                      <EditEntry requestId={row.id} />
+                      <DeleteEntry requestId={row.id} />
                     </div>
                   </TableCell>
                 );
