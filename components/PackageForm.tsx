@@ -52,7 +52,7 @@ export const PackageForm: FC<{
             {...register("parcelType")}
           >
             {parcelTypes.map((type) => (
-              <SelectItem key={type} value={type}>
+              <SelectItem key={type} value={type} className="text-white">
                 {type}
               </SelectItem>
             ))}
