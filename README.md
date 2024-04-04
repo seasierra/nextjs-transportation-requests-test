@@ -1,5 +1,3 @@
-This is a [Next.js](https://nextjs.org/) test task project displaing order and delivery requests of users
+This is a [Next.js](https://nextjs.org/) test task project for displaying order and delivery requests of users
 
-## Deployed build
-
-[Link](https://nextjs-transportation-requests-test.vercel.app/)
+[Deployed on Vercel](https://nextjs-transportation-requests-test.vercel.app/)
