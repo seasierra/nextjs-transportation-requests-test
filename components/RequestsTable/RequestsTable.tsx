@@ -75,7 +75,7 @@ export const RequestsTable: React.FC<{ list: IRequest[] }> = ({ list }) => {
     } else {
       setRequests(sortByDate(list, "createdAt"));
     }
-  }, [list]);
+  }, [list, sortDirection]);
 
   const handleSort = (descriptor: SortDescriptor) => {
     setRequests(sortByDate(requests, "dispatchDate", descriptor.direction));

@@ -17,7 +17,10 @@ export const EditEntry: React.FC<{ requestId: string }> = ({ requestId }) => {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const requests = useRequests();
 
-  const request = useMemo(() => requests.getOne(requestId), [requestId]);
+  const request = useMemo(
+    () => requests.getOne(requestId),
+    [requestId, requests]
+  );
 
   return (
     <>
